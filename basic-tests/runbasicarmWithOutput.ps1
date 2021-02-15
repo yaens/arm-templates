@@ -1,8 +1,9 @@
 $templateFile = "basicarmWithOutput.json"
 $today=Get-Date -Format "HHmmss-MM/dd/yyyy"
 $deploymentName="$templateFile-"+"$today"
-$output = New-AzResourceGroupDeployment `
+New-AzResourceGroupDeployment `
   -Name $deploymentName `
   -ResourceGroupName rg-test `
   -TemplateFile $templateFile `
-  -storageAccountType "Standard_LRS"
+  -StorageSKU "Standard_LRS" `
+  -storageName "st2yklearningdevweu"
