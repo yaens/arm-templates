@@ -1,1 +1,1 @@
-Test Repo for ARM Template deployments
+Test Repo for ARM Template deployments to test it with a tutorial
