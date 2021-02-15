@@ -1,5 +1,5 @@
 $templateFile = "basicarm.json"
-$today=Get-Date -Format "MM-dd-yyyy"
+$today=Get-Date -Format "HHmmss-MM/dd/yyyy"
 $deploymentName="$templateFile-"+"$today"
 New-AzResourceGroupDeployment `
   -Name $deploymentName `
