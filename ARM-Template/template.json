@@ -385,106 +385,6 @@
             }
         },
         {
-            "type": "Microsoft.Storage/storageAccounts/fileServices",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stdatalakestadlermigdev_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stdatalakestadlermigdev_name'))]"
-            ],
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-            },
-            "properties": {
-                "protocolSettings": {
-                    "smb": {}
-                },
-                "cors": {
-                    "corsRules": []
-                },
-                "shareDeleteRetentionPolicy": {
-                    "enabled": true,
-                    "days": 7
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/fileServices",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stfuncstadlermigdev_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stfuncstadlermigdev_name'))]"
-            ],
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-            },
-            "properties": {
-                "protocolSettings": {
-                    "smb": {}
-                },
-                "cors": {
-                    "corsRules": []
-                },
-                "shareDeleteRetentionPolicy": {
-                    "enabled": true,
-                    "days": 7
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/queueServices",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stdatalakestadlermigdev_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stdatalakestadlermigdev_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/queueServices",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stfuncstadlermigdev_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stfuncstadlermigdev_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stdatalakestadlermigdev_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stdatalakestadlermigdev_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stfuncstadlermigdev_name'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stfuncstadlermigdev_name'))]"
-            ],
-            "properties": {
-                "cors": {
-                    "corsRules": []
-                }
-            }
-        },
-        {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "name": "[parameters('sites_funcstadlergetdatadev_name')]",
@@ -520,26 +420,6 @@
                 "dailyMemoryTimeQuota": 0,
                 "httpsOnly": false,
                 "redundancyMode": "None"
-            }
-        },
-        {
-            "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
-            "apiVersion": "2017-04-01-preview",
-            "name": "[concat(parameters('streamingjobs_sa01_stadlermigration_dev_name'), '/eh01')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', parameters('streamingjobs_sa01_stadlermigration_dev_name'))]"
-            ],
-            "properties": {
-                "type": "Stream",
-                "compression": {
-                    "type": "None"
-                },
-                "serialization": {
-                    "type": "Json",
-                    "properties": {
-                        "encoding": "UTF8"
-                    }
-                }
             }
         },
         {
@@ -626,17 +506,12 @@
         {
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_funcstadlergetdatadev_name'), '/StadlerGetDataTimeTrigger')]",
+            "name": "[concat(parameters('sites_funcstadlergetdatadev_name'), '/demofunc')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('sites_funcstadlergetdatadev_name'))]"
             ],
             "properties": {
-                "script_root_path_href": "https://funcstadlergetdatadev.azurewebsites.net/admin/vfs/home/site/wwwroot/StadlerGetDataTimeTrigger/",
-                "script_href": "https://funcstadlergetdatadev.azurewebsites.net/admin/vfs/home/site/wwwroot/StadlerGetDataTimeTrigger/__init__.py",
-                "config_href": "https://funcstadlergetdatadev.azurewebsites.net/admin/vfs/home/site/wwwroot/StadlerGetDataTimeTrigger/function.json",
-                "href": "https://funcstadlergetdatadev.azurewebsites.net/admin/functions/StadlerGetDataTimeTrigger",
-                "config": {}
             }
         },
         {
@@ -664,21 +539,7 @@
             "properties": {
                 "messageRetentionInDays": 1,
                 "partitionCount": 5,
-                "status": "Active",
-                "captureDescription": {
-                    "enabled": true,
-                    "encoding": "Avro",
-                    "destination": {
-                        "name": "EventHubArchive.AzureBlockBlob",
-                        "properties": {
-                            "storageAccountResourceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stdatalakestadlermigdev_name'))]",
-                            "blobContainer": "stadlermigrationrawdata",
-                            "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
-                        }
-                    },
-                    "intervalInSeconds": 300,
-                    "sizeLimitInBytes": 314572800
-                }
+                "status": "Active"
             }
         },
         {
@@ -858,76 +719,6 @@
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
             ],
             "properties": {}
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stfuncstadlermigdev_name'), '/default/azure-webjobs-hosts')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_stfuncstadlermigdev_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stfuncstadlermigdev_name'))]"
-            ],
-            "properties": {
-                "defaultEncryptionScope": "$account-encryption-key",
-                "denyEncryptionScopeOverride": false,
-                "publicAccess": "None"
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stfuncstadlermigdev_name'), '/default/azure-webjobs-secrets')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_stfuncstadlermigdev_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stfuncstadlermigdev_name'))]"
-            ],
-            "properties": {
-                "defaultEncryptionScope": "$account-encryption-key",
-                "denyEncryptionScopeOverride": false,
-                "publicAccess": "None"
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stfuncstadlermigdev_name'), '/default/scm-releases')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_stfuncstadlermigdev_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stfuncstadlermigdev_name'))]"
-            ],
-            "properties": {
-                "defaultEncryptionScope": "$account-encryption-key",
-                "denyEncryptionScopeOverride": false,
-                "publicAccess": "None"
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stdatalakestadlermigdev_name'), '/default/stadlermigration')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_stdatalakestadlermigdev_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stdatalakestadlermigdev_name'))]"
-            ],
-            "properties": {
-                "defaultEncryptionScope": "$account-encryption-key",
-                "denyEncryptionScopeOverride": false,
-                "publicAccess": "None"
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_stdatalakestadlermigdev_name'), '/default/stadlermigrationrawdata')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_stdatalakestadlermigdev_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stdatalakestadlermigdev_name'))]"
-            ],
-            "properties": {
-                "defaultEncryptionScope": "$account-encryption-key",
-                "denyEncryptionScopeOverride": false,
-                "publicAccess": "None"
-            }
         }
     ]
 }
