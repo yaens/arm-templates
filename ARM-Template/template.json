@@ -253,7 +253,7 @@
                 "transformation": {
                     "name": "Transformation",
                     "properties": {
-                        "streamingUnits": 1,
+                        "streamingUnits": 2,
                         "query": "SELECT\r\n    *\r\nINTO\r\n    [YourOutputAlias]\r\nFROM\r\n    [YourInputAlias]"
                     }
                 }
