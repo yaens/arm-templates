@@ -237,43 +237,49 @@
             }
         },
         {
-            "type": "Microsoft.StreamAnalytics/streamingjobs",
-            "apiVersion": "2017-04-01-preview",
+            "type": "Microsoft.StreamAnalytics/StreamingJobs",
+            "apiVersion": "2019-06-01",
             "name": "[parameters('streamingjobs_sa01_stadlermigration_dev_name')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "sku": {
-                    "name": "Standard"
+                    "name": "standard"
                 },
-                "outputStartMode": "JobStartTime",
-                "eventsOutOfOrderPolicy": "Adjust",
-                "outputErrorPolicy": "Stop",
+                "outputErrorPolicy": "stop",
+                "eventsOutOfOrderPolicy": "adjust",
                 "eventsOutOfOrderMaxDelayInSeconds": 0,
                 "eventsLateArrivalMaxDelayInSeconds": 5,
                 "dataLocale": "en-US",
-                "compatibilityLevel": "1.0",
-                "contentStoragePolicy": "SystemAccount",
-                "jobType": "Cloud"
+                "transformation": {
+                    "name": "Transformation",
+                    "properties": {
+                        "streamingUnits": "1",
+                        "query": "SELECT\r\n    *\r\nINTO\r\n    [YourOutputAlias]\r\nFROM\r\n    [YourInputAlias]"
+                    }
+                }
             }
         },
         {
-            "type": "Microsoft.StreamAnalytics/streamingjobs",
-            "apiVersion": "2017-04-01-preview",
+            "type": "Microsoft.StreamAnalytics/StreamingJobs",
+            "apiVersion": "2019-06-01",
             "name": "[parameters('streamingjobs_sa02coldpath_stadlermigration_dev_name')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "sku": {
-                    "name": "Standard"
+                    "name": "standard"
                 },
-                "outputStartMode": "JobStartTime",
-                "eventsOutOfOrderPolicy": "Adjust",
-                "outputErrorPolicy": "Stop",
+                "outputErrorPolicy": "stop",
+                "eventsOutOfOrderPolicy": "adjust",
                 "eventsOutOfOrderMaxDelayInSeconds": 0,
                 "eventsLateArrivalMaxDelayInSeconds": 5,
                 "dataLocale": "en-US",
-                "compatibilityLevel": "1.0",
-                "contentStoragePolicy": "SystemAccount",
-                "jobType": "Cloud"
+                "transformation": {
+                    "name": "Transformation",
+                    "properties": {
+                        "streamingUnits": "1",
+                        "query": "SELECT\r\n    *\r\nINTO\r\n    [YourOutputAlias]\r\nFROM\r\n    [YourInputAlias]"
+                    }
+                }
             }
         },
         {
