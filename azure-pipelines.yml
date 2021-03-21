@@ -12,6 +12,7 @@ steps:
     azureResourceManagerConnection: 'RG armdemo Connection'
     subscriptionId: 'd35b16a1-dea4-49e8-832f-d228dff09ddc'
     action: 'Create Or Update Resource Group'
+    location: 'West Europe'
     resourceGroupName: 'rg-armdemo-dev'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/yaens/arm-templates/master/ARM-Template/template.json?token=AALFBRVKR667WSQ46OBS5Z3AK5QXK'
