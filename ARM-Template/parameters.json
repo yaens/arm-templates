@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_funcstadlergetdatadev_name": {
+            "value": "func1st"
+        },
+        "vaults_kv_stadler_dev_westeu_name": {
+            "value": "kevst"
+        },
+        "serverfarms_WestEuropeLinuxDynamicPlan_name": {
+            "value": "dynplan"
+        },
+        "storageAccounts_stfuncstadlermigdev_name": {
+            "value": "ststadfunc"
+        },
+        "storageAccounts_stdatalakestadlermigdev_name": {
+            "value": "ststaddatalake"
+        },
+        "components_appinsightstadlermigrationdev_name": {
+            "value": "apstadler"
+        },
+        "streamingjobs_sa01_stadlermigration_dev_name": {
+            "value": "sajobstad"
+        },
+        "namespaces_evhnms1_stadler_migration_dev_westeu_name": {
+            "value": "ehstadnms1"
+        },
+        "actionGroups_Application_Insights_Smart_Detection_name": {
+            "value": "appinsightstadler"
+        },
+        "streamingjobs_sa02coldpath_stadlermigration_dev_name": {
+            "value": "sa02jobstad"
+        }
+    }
+}
