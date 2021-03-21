@@ -504,17 +504,6 @@
             }
         },
         {
-            "type": "Microsoft.Web/sites/functions",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_funcstadlergetdatadev_name'), '/demofunc')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_funcstadlergetdatadev_name'))]"
-            ],
-            "properties": {
-            }
-        },
-        {
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('sites_funcstadlergetdatadev_name'), '/', parameters('sites_funcstadlergetdatadev_name'), '.azurewebsites.net')]",
