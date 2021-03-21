@@ -15,8 +15,8 @@ steps:
     location: 'West Europe'
     resourceGroupName: 'rg-armdemo-dev'
     templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/yaens/arm-templates/master/ARM-Template/template.json?token=AALFBRVKR667WSQ46OBS5Z3AK5QXK'
-    csmParametersFileLink: 'https://github.com/yaens/arm-templates/blob/master/ARM-Template/parameters.json'
+    csmFileLink: 'https://raw.githubusercontent.com/yaens/arm-templates/master/ARM-Template/template.json'
+    csmParametersFileLink: 'https://raw.githubusercontent.com/yaens/arm-templates/master/ARM-Template/parameters.json'
     deploymentMode: 'Incremental'
 pool:
   vmImage: ubuntu-latest
