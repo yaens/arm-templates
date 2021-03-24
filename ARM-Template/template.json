@@ -45,6 +45,7 @@
     },
     "variables": {},
     "resources": [
+        /* DEPLOY EVENT HUB NAMESPACES AND EVENT HUBS*/
         {
             "type": "Microsoft.EventHub/namespaces",
             "apiVersion": "2018-01-01-preview",
@@ -129,6 +130,7 @@
             ],
             "properties": {}
         },
+        //deploy Azure Key vault
         {
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2016-10-01",
@@ -139,6 +141,7 @@
                     "family": "A",
                     "name": "Standard"
                 },
+                //tenant of yannikkopp, for production deployment use generic option
                 "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
                 "accessPolicies": [
                     {
