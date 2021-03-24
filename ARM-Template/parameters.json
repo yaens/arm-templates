@@ -20,9 +20,6 @@
         "components_appinsightstadlermigrationdev_name": {
             "value": "apstadler"
         },
-        "streamingjobs_sa01_stadlermigration_dev_name": {
-            "value": "sajobstad"
-        },
         "namespaces_evhnms1_stadler_migration_dev_westeu_name": {
             "value": "ehstadnms1"
         },
