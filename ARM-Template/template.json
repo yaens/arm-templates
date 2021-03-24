@@ -63,38 +63,71 @@
             }
         },
         {
-            "type": "microsoft.insights/actionGroups",
-            "apiVersion": "2019-03-01",
-            "name": "[parameters('actionGroups_Application_Insights_Smart_Detection_name')]",
-            "location": "Global",
+            "type": "Microsoft.EventHub/namespaces/eventhubs",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stdatalakestadlermigdev_name'))]"
+            ],
             "properties": {
-                "groupShortName": "SmartDetect",
-                "enabled": true,
-                "emailReceivers": [],
-                "smsReceivers": [],
-                "webhookReceivers": [],
-                "itsmReceivers": [],
-                "azureAppPushReceivers": [],
-                "automationRunbookReceivers": [],
-                "voiceReceivers": [],
-                "logicAppReceivers": [],
-                "azureFunctionReceivers": []
+                "messageRetentionInDays": 1,
+                "partitionCount": 5,
+                "status": "Active"
             }
         },
         {
-            "type": "microsoft.insights/components",
-            "apiVersion": "2018-05-01-preview",
-            "name": "[parameters('components_appinsightstadlermigrationdev_name')]",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa01-stadlermigration-dev_eh01_policy')]",
             "location": "[resourceGroup().location]",
-            "kind": "web",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
+            ],
             "properties": {
-                "Application_Type": "web",
-                "Flow_Type": "Bluefield",
-                "Request_Source": "rest",
-                "RetentionInDays": 90,
-                "publicNetworkAccessForIngestion": "Enabled",
-                "publicNetworkAccessForQuery": "Enabled"
+                "rights": [
+                    "Listen"
+                ]
             }
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sender')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Send"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/$Default')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
+            ],
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa02coldpath')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
+            ],
+            "properties": {}
         },
         {
             "type": "Microsoft.KeyVault/vaults",
@@ -164,6 +197,40 @@
                 "enabledForDiskEncryption": false,
                 "enabledForTemplateDeployment": false,
                 "enableSoftDelete": true
+            }
+        },
+        {
+            "type": "microsoft.insights/actionGroups",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('actionGroups_Application_Insights_Smart_Detection_name')]",
+            "location": "Global",
+            "properties": {
+                "groupShortName": "SmartDetect",
+                "enabled": true,
+                "emailReceivers": [],
+                "smsReceivers": [],
+                "webhookReceivers": [],
+                "itsmReceivers": [],
+                "azureAppPushReceivers": [],
+                "automationRunbookReceivers": [],
+                "voiceReceivers": [],
+                "logicAppReceivers": [],
+                "azureFunctionReceivers": []
+            }
+        },
+        {
+            "type": "microsoft.insights/components",
+            "apiVersion": "2018-05-01-preview",
+            "name": "[parameters('components_appinsightstadlermigrationdev_name')]",
+            "location": "[resourceGroup().location]",
+            "kind": "web",
+            "properties": {
+                "Application_Type": "web",
+                "Flow_Type": "Bluefield",
+                "Request_Source": "rest",
+                "RetentionInDays": 90,
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
             }
         },
         {
@@ -521,199 +588,6 @@
                 "siteName": "funcstadlergetdatadev",
                 "hostNameType": "Verified"
             }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stdatalakestadlermigdev_name'))]"
-            ],
-            "properties": {
-                "messageRetentionInDays": 1,
-                "partitionCount": 5,
-                "status": "Active"
-            }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa01-stadlermigration-dev_eh01_policy')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {
-                "rights": [
-                    "Listen"
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh02-hotpath-stadler-migration-dev/sa01-stadlermigration-dev_eh01_policy')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), 'eh02-hotpath-stadler-migration-dev')]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {
-                "rights": [
-                    "Listen"
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa01-stadlermigration-dev_eh02_policy')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {
-                "rights": [
-                    "Listen"
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa01-stadlermigration-dev_eh03_policy')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {
-                "rights": [
-                    "Listen"
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sender')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {
-                "rights": [
-                    "Send"
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh02-hotpath-stadler-migration-dev/sender')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), 'eh02-hotpath-stadler-migration-dev')]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {
-                "rights": [
-                    "Send"
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/$Default')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh02-hotpath-stadler-migration-dev/$Default')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), 'eh02-hotpath-stadler-migration-dev')]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa01-stadlermigration-dev_eh01_consumer_group')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh02-hotpath-stadler-migration-dev/sa01-stadlermigration-dev_eh01_consumer_group')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), 'eh02-hotpath-stadler-migration-dev')]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa01-stadlermigration-dev_eh02_consumer_group')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa01-stadlermigration-dev_eh03_consumer_group')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/sa02coldpath')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), '/tsi')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'), concat('eh01-', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name')))]",
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_evhnms1_stadler_migration_dev_westeu_name'))]"
-            ],
-            "properties": {}
         }
     ]
 }
