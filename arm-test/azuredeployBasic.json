@@ -42,9 +42,9 @@
         "streamAnalyticsJobName": "[concat(parameters('uniqueSolutionPrefix'),'streamanalytics')]",
         "sqlServerName": "[concat(parameters('uniqueSolutionPrefix'),'sqlserver')]",
         "sqlDatabaseName": "[concat(parameters('uniqueSolutionPrefix'),'sqldb')]",
-        "functionAppName": "[concat(parameters('uniqueSolutionPrefix'),'fnapp')]",
-        "applicationInsightsName": "[concat(parameters('uniqueSolutionPrefix'),'appinsights')]",
-        "functionWorkerRuntime": "python"
+        "functionAppNamePython": "[concat(parameters('uniqueSolutionPrefix'),'fnapp-python')]",
+        "functionAppNameCSharp": "[concat(parameters('uniqueSolutionPrefix'),'fnapp-csharp')]",
+        "applicationInsightsName": "[concat(parameters('uniqueSolutionPrefix'),'appinsights')]"
     },
     "resources": [
         {
@@ -229,7 +229,7 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2020-06-01",
-            "name": "[variables('functionAppName')]",
+            "name": "[variables('functionAppNameCSharp')]",
             "location": "[variables('location')]",
             "kind": "functionapp,linux",
             "dependsOn": [
@@ -252,7 +252,40 @@
                         },
                         {
                             "name": "FUNCTIONS_WORKER_RUNTIME",
-                            "value": "[variables('functionWorkerRuntime')]"
+                            "value": "dotnet"
+                        }
+                    ]
+                },
+                "reserved": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('functionAppNamePython')]",
+            "location": "[variables('location')]",
+            "kind": "functionapp,linux",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+            ],
+            "properties": {
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';EndpointSuffix=',environment().suffixes.storage,';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~3"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "python"
                         }
                     ]
                 },
