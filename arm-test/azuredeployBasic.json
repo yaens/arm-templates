@@ -46,7 +46,7 @@
         "functionAppNameCSharp": "[concat(parameters('uniqueSolutionPrefix'),'fnapp-csharp')]",
         "applicationInsightsName": "[concat(parameters('uniqueSolutionPrefix'),'appinsights')]",
         "namespaceName": "[concat(parameters('uniqueSolutionPrefix'),'ehns')]",
-        "eventhubSku": "Basic",
+        "eventhubSku": "Standard",
         "skuCapacity": 1,
         "eventHubName": "[concat(parameters('uniqueSolutionPrefix'),'eh')]",
         "consumerGroupName": "asa"
