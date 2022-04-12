@@ -44,7 +44,12 @@
         "sqlDatabaseName": "[concat(parameters('uniqueSolutionPrefix'),'sqldb')]",
         "functionAppNamePython": "[concat(parameters('uniqueSolutionPrefix'),'fnapp-python')]",
         "functionAppNameCSharp": "[concat(parameters('uniqueSolutionPrefix'),'fnapp-csharp')]",
-        "applicationInsightsName": "[concat(parameters('uniqueSolutionPrefix'),'appinsights')]"
+        "applicationInsightsName": "[concat(parameters('uniqueSolutionPrefix'),'appinsights')]",
+        "namespaceName": "[concat(parameters('uniqueSolutionPrefix'),'ehns')]",
+        "eventhubSku": "Basic",
+        "skuCapacity": 1,
+        "eventHubName": "[concat(parameters('uniqueSolutionPrefix'),'eh')]",
+        "consumerGroupName": "asa"
     },
     "resources": [
         {
@@ -305,6 +310,38 @@
                 "Request_Source": "rest",
                 "Application_Type": "web"
             }
+        },
+        {
+            "apiVersion": "2018-01-01-preview",
+            "name": "[variables('namespaceName')]",
+            "type": "Microsoft.EventHub/namespaces",
+            "location": "[variables('location')]",
+            "sku": {
+                "name": "[variables('eventhubSku')]",
+                "tier": "[variables('eventhubSku')]",
+                "capacity": "[variables('skuCapacity')]"
+            },
+            "properties": {},
+            "resources": [
+                {
+                    "apiVersion": "2017-04-01",
+                    "name": "[variables('eventHubName')]",
+                    "type": "eventhubs",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.EventHub/namespaces/', variables('namespaceName'))]"
+                    ],
+                    "properties": {},
+                    "resources": [
+                        {
+                            "apiVersion": "2017-04-01",
+                            "name": "[variables('consumerGroupName')]",
+                            "type": "consumergroups",
+                            "dependsOn": [ "[variables('eventHubName')]" ],
+                            "properties": {}
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "outputs": {}
