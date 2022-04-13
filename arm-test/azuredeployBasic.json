@@ -258,6 +258,18 @@
                         {
                             "name": "FUNCTIONS_WORKER_RUNTIME",
                             "value": "dotnet"
+                        },
+                        {
+                            "name": "EVENT_HUB_ROUTER_INPUT",
+                            "value": ""
+                        },
+                        {
+                            "name": "EVENT_HUB_ROUTER_OUTPUT",
+                            "value": ""
+                        },
+                        {
+                            "name": "DECODER_URL",
+                            "value": ""
                         }
                     ]
                 },
@@ -291,6 +303,30 @@
                         {
                             "name": "FUNCTIONS_WORKER_RUNTIME",
                             "value": "python"
+                        },
+                        {
+                            "name": "eventHubInputConnectionString",
+                            "value": ""
+                        },
+                        {
+                            "name": "eventHubOutputConnectionString",
+                            "value": ""
+                        },
+                        {
+                            "name": "outputEventHubName",
+                            "value": ""
+                        },
+                        {
+                            "name": "dasLoRaCloudURI",
+                            "value": "https://das.loracloud.com/api/v1/device/send"
+                        },
+                        {
+                            "name": "dasAuthToken",
+                            "value": ""
+                        },
+                        {
+                            "name": "iotHubConnectionString",
+                            "value": ""
                         }
                     ]
                 },
